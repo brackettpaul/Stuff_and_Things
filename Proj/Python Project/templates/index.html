@@ -1,0 +1,207 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+</style>
+<script type=text/javascript>
+//these functions are Jquery
+//this function is for the first button
+$(function()
+	{
+	//saves some information into the DB
+	$("#submitBtn").click(function(){
+         $.ajax({
+            url: $SCRIPT_ROOT + "/claimSave/",
+            contentType: "application/json; charset=utf-8",
+            data: { pyClaimType: $("#claimType").val(), pyClaimAmt: $("#claimAmt").val(), pyClaimDate: $("#claimDate").val(), pyClaimDesc: $("#claimDesc").val()},
+            success: 
+			function(){
+				//clears the form when submit is successful.
+				document.getElementById("claimAmt").value = "";
+				document.getElementById("claimDate").value = "";
+				document.getElementById("claimDesc").value = "";
+				alert("Claim successfully added!");
+				}
+				});
+				})
+	}
+	//the function for logging in should go here..?
+	);
+</script>
+
+<!-- This is the code for the dialouge box -->
+  <script>
+  $(function()
+	{
+    var name = $( "#name" ),
+    password = $( "#password" );
+    $( "#dialog-form" ).dialog({
+	 dialogClass: 
+	 //no-close is a CSS class that takes away the x button
+	 "no-close",
+	 //closeOnEscape disables esc escaping.
+	  closeOnEscape: false,
+      autoOpen: false,
+      height: 350,
+      width: 350,
+      modal: true,
+	  //This is the property for the Log-In Button
+      buttons: {
+        "Log-In": function() {
+		  $.ajax({
+            url: $SCRIPT_ROOT + "/validation/",
+            contentType: "application/json; charset=utf-8",
+			//passes the values of name and password in the login form
+			data: { pyAccName: $("#name").val(), pyAccPass: $("#password").val() },
+			success:
+			//if the request is successful...
+			//This accepts the servers return of loggedIn for use in the Jquery/JS
+			function(loggedIn)
+			{
+				if(loggedIn == 'true')
+				{
+				//closes the dialog box if login was successful.
+				$("#dialog-form").dialog("close");
+				}
+				else
+				{
+				alert("Log in failed");
+				}
+			}//end function
+				});//end Ajax
+				}//end function
+			}//end buttons property
+		});//end dialog properties
+	}//end function
+  );//end jquery
+  </script>
+  
+<div id="dialog-form" title="Log In"> 
+  <form>
+  <fieldset>
+    <label for="name">Account Name</label>
+    <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+  </fieldset>
+  </form>
+</div>
+<!-- End Dialouge Box -->
+<div id="message"></div>
+<!-- These three lines add the date picker to the page and make it look nice. -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  
+  <!--This is the code for my tabs. -->
+ <div id="tabs">
+  <ul>
+    <li><a href="#tab-1"><span>Camera Thing</span></a></li>
+	<li><a href="#tab-2"><span>Report a Claim</span></a></li>
+    <li><a href="#tab-3"><span>Reports?</span></a></li>
+  </ul>
+  
+  
+  <script>
+  function start() {
+    //sets media of GetUserMedia to video. Other possible value is audio
+    navigator.webkitGetUserMedia({
+        video: true
+    },
+
+    //next two functions bring up the allow/Deny bar at the top of the screen
+    function (Stream) {
+        //If allow is clicked, this sets the source of the video tag to the webcam stream
+        document.getElementById('sourcevid').src = window.webkitURL.createObjectURL(Stream) || Stream;
+    },
+
+    function (error) {
+
+    })
+}
+  </script>
+  <!--This is tab 1-->
+  <script>
+  $(function()
+	{
+	//this starts the camera.
+	$("#btnCameraOn").click(function(){
+         $.ajax({
+            url: $SCRIPT_ROOT + "/saveVideo/",
+            contentType: "application/json; charset=utf-8"		
+				});
+				})
+	}
+	);
+  </script>
+  <div id="tab-1">
+  <table>
+  <tr>
+  <td>
+  <input type="button" id="btnCameraOn" size="4%" text="Camera! On!" onclick="start()"></input>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <video id="sourcevid" class="video" autoplay></video>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <input type="button" id="btnStartRecord" text="Start recording"></input>
+  </td>
+  <td>
+  <input type="button" id="btnStopRecord" text="Stop Recording" "></input>
+  </tr>
+  </table>
+  </div>
+  
+  <!-- Tab 2 -->
+  <div id="tab-2">
+	<form>
+<label>Claim Type: </label>
+
+<select id="claimType">
+	<option value="1">Automobile</option>
+	<option value="2">HomeOwners</option>
+	<option value="3">Life</option>
+	<option value="4">Renters</option>
+</select>
+<br/>
+<br/>
+<label>Amount:</label>
+<input type="text" id="claimAmt" size="10" maxlength="10"></input>
+<br/>
+<br/>
+<label>Date Occured: </label>
+<input type="text" id="claimDate" size="10" maxlength="10"></input>
+<br/>
+<br/>
+<label>Description of Incident: (500 character Max)</label>
+<br/>
+<textarea type="text" id="claimDesc" size="600" maxlength="500"></textarea>
+<br />
+<button type='button' id='submitBtn' name='submitBtn'>Submit Claim</button><br /><br />
+<!-- This jquery function adds the datePicker to the page. -->
+<script>
+$(function() {
+    $( "#claimDate").datepicker();
+  });
+</script>
+
+</form>
+  </div>
+  <!-- end tab 2-->
+
+  <div id="tab-3">
+    I'm not sure what to put here, actually.
+  </div>
+</div>
+
+<!--Sets the default tab -->
+<script>
+$( "#tabs" ).tabs();
+</script>
+{% endblock %}
