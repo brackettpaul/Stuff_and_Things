@@ -71,8 +71,7 @@ def saveVideo():
 	CHUNK = 1024
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
-	RATE = 44100
-	RATE = 10000
+	RATE = 11500
 	WAVE_OUTPUT_FILENAME = home_dir + "/output.wav"
 	
 	stream = p.open(format = FORMAT,
