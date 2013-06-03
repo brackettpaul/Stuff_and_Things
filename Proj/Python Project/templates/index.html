@@ -43,7 +43,7 @@ $(function()
 	 "no-close",
 	 //closeOnEscape disables esc escaping.
 	  closeOnEscape: false,
-      autoOpen: false,
+      autoOpen: true,
       height: 350,
       width: 350,
       modal: true,
@@ -100,28 +100,9 @@ $(function()
   <ul>
     <li><a href="#tab-1"><span>Camera Thing</span></a></li>
 	<li><a href="#tab-2"><span>Report a Claim</span></a></li>
-    <li><a href="#tab-3"><span>Reports?</span></a></li>
+    <li><a href="#tab-3"><span>Queries?</span></a></li>
   </ul>
   
-  
-  <script>
-  function start() {
-    //sets media of GetUserMedia to video. Other possible value is audio
-    navigator.webkitGetUserMedia({
-        video: true
-    },
-
-    //next two functions bring up the allow/Deny bar at the top of the screen
-    function (Stream) {
-        //If allow is clicked, this sets the source of the video tag to the webcam stream
-        document.getElementById('sourcevid').src = window.webkitURL.createObjectURL(Stream) || Stream;
-    },
-
-    function (error) {
-
-    })
-}
-  </script>
   <!--This is tab 1-->
   <script>
   $(function()
@@ -140,20 +121,8 @@ $(function()
   <table>
   <tr>
   <td>
-  <input type="button" id="btnCameraOn" size="4%" text="Camera! On!" onclick="start()"></input>
+  <button type="button" id="btnCameraOn">Camera! On!</button>
   </td>
-  </tr>
-  <tr>
-  <td>
-  <video id="sourcevid" class="video" autoplay></video>
-  </td>
-  </tr>
-  <tr>
-  <td>
-  <input type="button" id="btnStartRecord" text="Start recording"></input>
-  </td>
-  <td>
-  <input type="button" id="btnStopRecord" text="Stop Recording" "></input>
   </tr>
   </table>
   </div>
@@ -196,7 +165,7 @@ $(function() {
   <!-- end tab 2-->
 
   <div id="tab-3">
-    I'm not sure what to put here, actually.
+    I'm gonna make the database pull back information here, I think.
   </div>
 </div>
 
