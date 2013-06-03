@@ -72,7 +72,7 @@ def saveVideo():
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100
-	RATE = 22050
+	RATE = 10000
 	WAVE_OUTPUT_FILENAME = home_dir + "/output.wav"
 	
 	stream = p.open(format = FORMAT,
@@ -96,7 +96,7 @@ def saveVideo():
 		winName = "Big Brother is watching!"
 		cv2.namedWindow(winName, cv2.CV_WINDOW_AUTOSIZE)
 		#the writing writer writes the movie to the hard drive
-		writer = cv2.VideoWriter(home_dir + "/movie.avi", cv2.cv.CV_FOURCC('i','Y','U','V'), 24,(640, 480))
+		writer = cv2.VideoWriter(home_dir + "/movie.avi", cv2.cv.CV_FOURCC('i','Y','U','V'), 10,(640, 480))
 		
 		while s:		
 		#this displays the video being recorded in a window
