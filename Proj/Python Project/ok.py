@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 #these lines import SQLite - for the database, and CV2 - for the webcam, 
 import sqlite3 as lite
+import os
 import sys
 import cv2
 import pyaudio
@@ -65,12 +66,14 @@ def saveVideo():
 	#stuff for microphone recording
 	p = pyaudio.PyAudio()
 	
+	home_dir = os.path.expanduser("~")
+	
 	CHUNK = 1024
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
 	RATE = 44100
 	RATE = 22050
-	WAVE_OUTPUT_FILENAME = "c:/output.wav"
+	WAVE_OUTPUT_FILENAME = home_dir + "/output.wav"
 	
 	stream = p.open(format = FORMAT,
                 channels = CHANNELS, 
@@ -93,7 +96,7 @@ def saveVideo():
 		winName = "Big Brother is watching!"
 		cv2.namedWindow(winName, cv2.CV_WINDOW_AUTOSIZE)
 		#the writing writer writes the movie to the hard drive
-		writer = cv2.VideoWriter("c:/movie.avi", cv2.cv.CV_FOURCC('i','Y','U','V'), 24,(640, 480))
+		writer = cv2.VideoWriter(home_dir + "/movie.avi", cv2.cv.CV_FOURCC('i','Y','U','V'), 24,(640, 480))
 		
 		while s:		
 		#this displays the video being recorded in a window
